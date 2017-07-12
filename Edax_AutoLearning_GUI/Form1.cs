@@ -38,7 +38,6 @@ namespace Edax_AutoLearning_GUI
             {
                 MessageBox.Show(MyString.FIRST_MESSAGE);
                 Properties.Settings.Default.is_FirstOpen = false;
-                Properties.Settings.Default.Save();
 
                 //マニュアルを読取専用にしておく
                 FileAttributes attr = File.GetAttributes(MyString.MANUAL_txt);
@@ -58,6 +57,7 @@ namespace Edax_AutoLearning_GUI
          */
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
+            Properties.Settings.Default.Save();
             try
             {
                 if (edax_process != null)
@@ -151,6 +151,7 @@ namespace Edax_AutoLearning_GUI
                 count_GameOver++;
                 if (count_GameOver == 1)
                 {
+                    Console.WriteLine("book storeを開始.....");
                     edax_process.StandardInput.WriteLine(MyString.BOOK_STORE);
                 }
                 if (count_GameOver == 2)
@@ -274,6 +275,7 @@ namespace Edax_AutoLearning_GUI
             }
             else if (first_txt.Trim().Equals("fix"))
             {   //【fix】
+                Console.WriteLine("book fix を開始.....");
                 edax_process.StandardInput.WriteLine(MyString.BOOK_FIX);
             }
             else
@@ -286,7 +288,7 @@ namespace Edax_AutoLearning_GUI
                 {   //幅指定あり
                     int conma_index = first_txt.IndexOf(",");
                     randomness = first_txt.Substring(0, conma_index);
-                    moves = first_txt.Substring(conma_index + 2).Trim();
+                    moves = first_txt.Substring(conma_index + 1).Trim();
                 }
                 if(!is_RecordMoves(moves))
                 {   //不適切な文字列の場合はSTOP
@@ -310,6 +312,7 @@ namespace Edax_AutoLearning_GUI
         private void Restart_edax()
         {
             edax_process.StandardInput.WriteLine(MyString.EXIT);
+            Console.WriteLine("bookの更新中.....");
 
             MyTextOperation MyTextOperation = new MyTextOperation();
             MyTextOperation.Delete_Text();
@@ -404,8 +407,12 @@ namespace Edax_AutoLearning_GUI
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             MyTextOperation myTextOperation = new MyTextOperation();
-            First_box.Text  = myTextOperation.Get_First_Text();
+            if(First_box.Text == null || First_box.Text == "")
+            {
+                First_box.Text = myTextOperation.Get_First_Text();
+            }
             Second_box.Text = myTextOperation.Get_Second_Text();
+            if (Second_box.Text == "" || Second_box.Text == null) Second_box.Text = MyString.NOTHING_TXT;
             this.ActiveControl = null;
         }
 

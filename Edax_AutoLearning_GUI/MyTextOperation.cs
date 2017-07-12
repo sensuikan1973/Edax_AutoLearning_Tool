@@ -25,9 +25,12 @@ namespace Edax_AutoLearning_GUI
                 String line;
                 while ((line = reader.ReadLine()) != null)
                 {
-                    if (!line.Contains("/")) break;
+                    if (!line.Contains("/"))
+                    {
+                        return line.Trim();
+                    }
                 }
-                return line.Trim();
+                return line;
             }
         }
 
@@ -43,16 +46,19 @@ namespace Edax_AutoLearning_GUI
             using(StreamReader reader = new StreamReader(MyString.Will_learn_List_txt, Encoding.Default))
             {
                 int count = 0;
-                String line;
+                String line = "";
                 while ((line = reader.ReadLine()) != null)
                 {
                     if (!line.Contains("/"))
                     {
                         count++;
-                        if (count == 2) break;
+                        if (count == 2) {
+                            return line.Trim();
+                        }
+
                     }
                 }
-                return line.Trim();
+                return line;
             }
         }
 

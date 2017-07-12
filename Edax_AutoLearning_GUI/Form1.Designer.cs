@@ -90,7 +90,8 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(237, 67);
+            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox1.Location = new System.Drawing.Point(242, 67);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(30, 30);
             this.pictureBox1.TabIndex = 9;
@@ -108,8 +109,10 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.button1);
+            this.DataBindings.Add(new System.Windows.Forms.Binding("Location", global::Edax_AutoLearning_GUI.Properties.Settings.Default, "MyLocation", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MaximumSize = new System.Drawing.Size(700, 170);
+            this.Location = global::Edax_AutoLearning_GUI.Properties.Settings.Default.MyLocation;
+            this.MaximumSize = new System.Drawing.Size(800, 170);
             this.MinimumSize = new System.Drawing.Size(300, 170);
             this.Name = "Form1";
             this.Text = "AutoLearningTool";
