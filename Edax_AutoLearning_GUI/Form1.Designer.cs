@@ -34,6 +34,8 @@
             this.label3 = new System.Windows.Forms.Label();
             this.First_box = new System.Windows.Forms.TextBox();
             this.Second_box = new System.Windows.Forms.TextBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -86,11 +88,21 @@
             this.Second_box.Size = new System.Drawing.Size(172, 19);
             this.Second_box.TabIndex = 8;
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Location = new System.Drawing.Point(237, 67);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(30, 30);
+            this.pictureBox1.TabIndex = 9;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 131);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.Second_box);
             this.Controls.Add(this.First_box);
             this.Controls.Add(this.label3);
@@ -102,6 +114,7 @@
             this.Name = "Form1";
             this.Text = "AutoLearningTool";
             this.Load += new System.EventHandler(this.Form1_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -113,6 +126,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox First_box;
         private System.Windows.Forms.TextBox Second_box;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
 

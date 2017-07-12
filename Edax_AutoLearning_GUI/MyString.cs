@@ -36,8 +36,9 @@ namespace Edax_AutoLearning_GUI
         public const String EXE_edax             = @"\wEdax-x64.exe";
 
         //メッセージ
-        public const String NOTHING_TXT          = "学習対象がありません\nテキストが空行です";
+        public const String NOTHING_TXT          = "学習対象がありません";
         public const String STOP                 = "STOPしました";
+        public const String TXT_ERROR            = "不適切な文字列です";
         public const String CLOSING_MESSAGE      = "学習中です！\n\n 強制中断してウィンドウを閉じますか？";
         public const String CLOSING_TITLE        = "質問";
         public const String FIRST_MESSAGE        = "まず、簡易マニュアルを確認して導入を終えて下さい";
@@ -47,7 +48,7 @@ namespace Edax_AutoLearning_GUI
         public const String BTN_TXT_MOVING       = "動作中";
 
         //その他
-        public const String TITLE                = "*****出力確認用コンソール*****";
+        public const String CONSOLE_TITLE        = "*****出力確認用コンソール*****";
         public const String EXIT                 = "exit";
         
     }

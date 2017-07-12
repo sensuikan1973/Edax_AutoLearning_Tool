@@ -50,6 +50,7 @@ namespace Edax_AutoLearning_GUI
         {
             this.FormClosed  += new FormClosedEventHandler(Form1_FormClosed);
             this.FormClosing += new FormClosingEventHandler(Form1_FormClosing);
+            set_Image();
         }
 
         /**
@@ -212,7 +213,7 @@ namespace Edax_AutoLearning_GUI
             edax_process.BeginOutputReadLine();
 
             //学習の様子を目視できるようにするに、コンソールへ出力
-            Console.WriteLine(MyString.TITLE);
+            Console.WriteLine(MyString.CONSOLE_TITLE);
         }
 
         /**
@@ -248,16 +249,23 @@ namespace Edax_AutoLearning_GUI
                 return;
             }
 
-            Boolean isDeviate = first_txt.Contains("[");
+            Boolean isDeviate = first_txt.Substring(0,1)==("[");
             is_learning = true;
             if (isDeviate)
             {   //【deviate】
                 //引数2つを取得 (2桁にも対応)
-                int index_mark  = first_txt.IndexOf("]");
-                int index_empty = first_txt.IndexOf(" ");
+                int index_mark    = first_txt.IndexOf("]");
+                int index_empty   = first_txt.IndexOf(" ");
                 String dev_param1 = first_txt.Substring(1, index_empty - 1);
                 String dev_param2 = first_txt.Substring(index_empty + 1, index_mark - 1);
-                String moves = first_txt.Substring(index_mark + 2);
+                String moves      = first_txt.Substring(index_mark + 1).Trim();
+                if(!is_RecordMoves(moves))
+                {   //不適切な文字列の場合はSTOP
+                    MessageBox.Show(MyString.TXT_ERROR);
+                    set_received_ok();
+                    Console.Clear();
+                    return;
+                }
                 // >>
                 //ToDo ここらでdevの可否をチェックしたい
                 // <<
@@ -271,14 +279,21 @@ namespace Edax_AutoLearning_GUI
             else
             {   //【mode 2】
                 //まずランダム幅指定をチェックする
-                String moves = first_txt;
+                String moves = first_txt.Trim();
                 String randomness = MyInteger.randomness_init.ToString();
                 Boolean is_set_random = first_txt.Contains(",");
                 if (is_set_random)
                 {   //幅指定あり
                     int conma_index = first_txt.IndexOf(",");
                     randomness = first_txt.Substring(0, conma_index);
-                    moves = first_txt.Substring(conma_index + 2);
+                    moves = first_txt.Substring(conma_index + 2).Trim();
+                }
+                if(!is_RecordMoves(moves))
+                {   //不適切な文字列の場合はSTOP
+                    MessageBox.Show(MyString.TXT_ERROR);
+                    set_received_ok();
+                    Console.Clear();
+                    return;
                 }
                 edax_process.StandardInput.WriteLine(MyString.BOOK_RANDOMNESS + randomness);
                 edax_process.StandardInput.WriteLine(MyString.PLAY + moves);
@@ -357,7 +372,6 @@ namespace Edax_AutoLearning_GUI
             is_learning = false;
             count_GameOver = 0;
             count_todo = 0;
-
             //button1.Text = MyString.BTN_TXT_START_OK;
             //button1.Enabled = true;
         }
@@ -372,5 +386,58 @@ namespace Edax_AutoLearning_GUI
             await Task.Delay(wait_second * 1000);
         }
 
+        /**
+         * @brief 画像をセット
+         */
+        private void set_Image()
+        {
+            Bitmap bmp = Properties.Resources.update_s;
+            pictureBox1.Image = new Bitmap(bmp);
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+        }
+
+        /**
+         * @brief 更新画像のクリックイベント
+         * 
+         * テキスト情報を更新する
+         */
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            MyTextOperation myTextOperation = new MyTextOperation();
+            First_box.Text  = myTextOperation.Get_First_Text();
+            Second_box.Text = myTextOperation.Get_Second_Text();
+            this.ActiveControl = null;
+        }
+
+        /**
+         * @brief 棋譜テキスト化を判定
+         * 
+         * F5F6...の形式であるかをチェック
+         * 
+         * @param moves    棋譜文字列
+         * @return     棋譜の形式かどうか
+         */
+        private Boolean is_RecordMoves(String moves)
+        {
+            for (int i = 0; i < moves.Length; i++) 
+            {
+                System.Text.RegularExpressions.Regex alpha = new System.Text.RegularExpressions.Regex(
+                @"[a-hA-H]",System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+                System.Text.RegularExpressions.Regex num = new System.Text.RegularExpressions.Regex(
+                @"[1-8]", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+
+                String s = moves.Substring(i, 1);
+                if (i % 2 == 0  &&  !alpha.IsMatch(s))
+                {
+                    return false;
+                }
+                if (i % 2 == 1  &&  !num.IsMatch(s))
+                {
+                    return false;
+                }
+                
+            }
+            return true;
+        }
     }
 }

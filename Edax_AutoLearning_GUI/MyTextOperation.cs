@@ -8,13 +8,15 @@ using System.Windows.Forms;
 
 namespace Edax_AutoLearning_GUI
 {
-    //テキスト操作に必要な関数を定義するクラス
+    //テキスト操作クラス
     class MyTextOperation
     {
         /**
          * @brief 今回学習する棋譜を取得
          *
          * 学習予定リストから今回学習する棋譜を取得する
+         * 
+         * @return  Trim済みの文字列
          */
         public String Get_First_Text()
         {
@@ -33,6 +35,8 @@ namespace Edax_AutoLearning_GUI
          * @brief 次回学習予定の棋譜を取得
          *
          * 学習予定リストから次回学習予定の棋譜を取得する
+         * 
+         * @return  Trim済みの文字列
          */
         public String Get_Second_Text()
         {
