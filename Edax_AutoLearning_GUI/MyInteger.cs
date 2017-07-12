@@ -9,7 +9,7 @@ namespace Edax_AutoLearning_GUI
     class MyInteger
     {
         //edax再起動までの待機秒数
-        public const int wait_start     = 20;
+        public const int wait_start       = 20;
 
         //コンソールサイズ
         public const int width_Consle     = 80;

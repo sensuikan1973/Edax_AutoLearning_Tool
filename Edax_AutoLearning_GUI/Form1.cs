@@ -76,7 +76,7 @@ namespace Edax_AutoLearning_GUI
         {
             if (is_learning)
             {
-                DialogResult result = MessageBox.Show(MyString.CLOSING_MESSAGE, "質問", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                DialogResult result = MessageBox.Show(MyString.CLOSING_MESSAGE, MyString.CLOSING_TITLE, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result == DialogResult.No)
                 {
                     e.Cancel = true;
@@ -112,7 +112,7 @@ namespace Edax_AutoLearning_GUI
                 Console.SetCursorPosition(0, Console.CursorTop - 1);
                 count_todo = 0;
             }
-            else if (e.Data.Contains("todo"))
+            else if (e.Data.Contains(MyString.DEV_TODO))
             {   //"todo"文字を含む場合は上書きで出力
                 count_todo++;
                 if(count_todo == 1)
@@ -125,7 +125,7 @@ namespace Edax_AutoLearning_GUI
                 }
                 Console.Write(e.Data + "\n");
             }
-            else if (e.Data.Contains("Negamaxing"))
+            else if (e.Data.Contains(MyString.NEGAMAXING_BOOK))
             {   //store成功後の出力を調整
                 Console.Write("\n" + e.Data + "\n");
             }
@@ -266,7 +266,7 @@ namespace Edax_AutoLearning_GUI
             }
             else if (first_txt.Trim().Equals("fix"))
             {   //【fix】
-                edax_process.StandardInput.WriteLine(MyString.FIX);
+                edax_process.StandardInput.WriteLine(MyString.BOOK_FIX);
             }
             else
             {   //【mode 2】
@@ -308,7 +308,7 @@ namespace Edax_AutoLearning_GUI
         }
 
         /**
-         * @brief edaxの再起動
+         * @brief ボタン受付の許可
          *
          * stop後の処理
          */
