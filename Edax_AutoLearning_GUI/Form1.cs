@@ -29,8 +29,40 @@ namespace Edax_AutoLearning_GUI
         //"to do"の出現カウント(Book deviate x y...を体裁よく出力するため)
         int count_todo = 0;
 
+        // Win32 APIのインポート
+        [DllImport("USER32.DLL")]
+        private static extern IntPtr
+        GetSystemMenu(IntPtr hWnd, UInt32 bRevert);
+
+        [DllImport("USER32.DLL")]
+        private static extern UInt32
+        RemoveMenu(IntPtr hMenu, UInt32 nPosition, UInt32 wFlags);
+
+        // ［閉じる］ボタンを無効化するための値
+        private const UInt32 SC_CLOSE = 0x0000F060;
+        private const UInt32 MF_BYCOMMAND = 0x00000000;
+
+        /**
+         * @brief コンソールの×ボタンを無効化する
+         */
+        public static void DisableCloseButton()
+        {
+
+            IntPtr hWnd = Process.GetCurrentProcess().MainWindowHandle;
+
+            if (hWnd != IntPtr.Zero)
+            {
+                IntPtr hMenu = GetSystemMenu(hWnd, 0);
+                RemoveMenu(hMenu, SC_CLOSE, MF_BYCOMMAND);
+            }
+        }
+
+        /**
+         * @brief コンストラクタ
+         */
         public Form1()
         {
+            DisableCloseButton();
             InitializeComponent();
             reSize_Console();
             File_check();
@@ -45,6 +77,9 @@ namespace Edax_AutoLearning_GUI
             }            
         }
 
+        /**
+         * @brief Formロード時にイベントを登録
+         */
         private void Form1_Load(object sender, EventArgs e)
         {
             this.FormClosed  += new FormClosedEventHandler(Form1_FormClosed);
@@ -312,17 +347,19 @@ namespace Edax_AutoLearning_GUI
         private void Restart_edax()
         {
             edax_process.StandardInput.WriteLine(MyString.EXIT);
-            Console.WriteLine("bookの更新中.....");
+            Console.WriteLine(
+                "\n\n-----bookの更新中-----\n" + MyInteger.wait_start.ToString() + "秒操作不可です！.....\n");
 
             MyTextOperation MyTextOperation = new MyTextOperation();
             MyTextOperation.Delete_Text();
 
-            //book更新のために、再起動まで処理を停止
-            sleepAsync(MyInteger.wait_start); 
+            //book更新のために本スレッドを停止させる
+            System.Threading.Thread.Sleep(MyInteger.wait_start * 1000);
 
             Console.Clear();
             Start_edax();
             MyInput();
+
         }
 
         /**
@@ -377,16 +414,6 @@ namespace Edax_AutoLearning_GUI
             count_todo = 0;
             //button1.Text = MyString.BTN_TXT_START_OK;
             //button1.Enabled = true;
-        }
-
-        /**
-         * @brief 非同期的な待機
-         * 
-         * @param wait_second  待機秒数
-         */
-        private async void sleepAsync(int wait_second)
-        {
-            await Task.Delay(wait_second * 1000);
         }
 
         /**
@@ -445,6 +472,16 @@ namespace Edax_AutoLearning_GUI
                 
             }
             return true;
+        }
+
+        /**
+         * @brief 非同期的な待機
+         * 
+         * @param wait_second  待機秒数
+         */
+        private async void sleepAsync(int wait_second)
+        {
+            await Task.Delay(wait_second * 1000);
         }
     }
 }
