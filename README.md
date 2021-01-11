@@ -1,3 +1,7 @@
+# See: [issues/1](https://github.com/sensuikan1973/Edax_AutoLearning_Tool/issues/1)
+
+---
+
 # Edax_AutoLearning_Tool
 edaxの自動学習効率化ツール
 
