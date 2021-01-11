@@ -1,4 +1,4 @@
-# See: [issues/1](https://github.com/sensuikan1973/Edax_AutoLearning_Tool/issues/1)
+**See: [issues/1](https://github.com/sensuikan1973/Edax_AutoLearning_Tool/issues/1)**
 
 ---
 
